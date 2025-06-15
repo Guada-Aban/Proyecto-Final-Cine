@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Cine</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🎬 Sistema de Gestión de Cine</h1>
+        <p class="subtitle">Administra tu cadena de cines de forma integral</p>
+    </header>
+
+    <nav class="navigation" id="navigation">
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="showSection('menu')">🏠 Inicio</button>
+            <button class="nav-btn" onclick="showSection('cines')">🏢 Cines</button>
+            <button class="nav-btn" onclick="showSection('empleados')">👥 Empleados</button>
+            <button class="nav-btn" onclick="showSection('peliculas')">🎭 Películas</button>
+            <button class="nav-btn" onclick="showSection('salas')">🪑 Salas</button>
+            <button class="nav-btn" onclick="showSection('funciones')">⏰ Funciones</button>
+            <button class="nav-btn" onclick="showSection('entradas')">🎫 Entradas</button>
+        </div>
+    </nav>
+
+    <!-- Menú Principal -->
+    <div id="menu" class="content-section" style="display: block;">
+        <div class="menu-grid">
+            <div class="menu-card" onclick="showSection('cines')">
+                <span class="menu-icon">🏢</span>
+                <h3>Gestión de Cines</h3>
+                <p>Administra los cines de tu cadena, sus ubicaciones y información general</p>
+            </div>
+
+            <div class="menu-card" onclick="showSection('empleados')">
+                <span class="menu-icon">👥</span>
+                <h3>Empleados</h3>
+                <p>Gestiona el personal que trabaja en tus diferentes cines</p>
+            </div>
+
+            <div class="menu-card" onclick="showSection('peliculas')">
+                <span class="menu-icon">🎭</span>
+                <h3>Películas</h3>
+                <p>Catálogo de películas disponibles en tus cines</p>
+            </div>
+
+            <div class="menu-card" onclick="showSection('salas')">
+                <span class="menu-icon">🪑</span>
+                <h3>Salas</h3>
+                <p>Configura las salas de cada cine con su capacidad</p>
+            </div>
+
+            <div class="menu-card" onclick="showSection('funciones')">
+                <span class="menu-icon">⏰</span>
+                <h3>Funciones</h3>
+                <p>Programa los horarios de las películas en cada sala</p>
+            </div>
+
+            <div class="menu-card" onclick="showSection('entradas')">
+                <span class="menu-icon">🎫</span>
+                <h3>Entradas</h3>
+                <p>Gestiona la venta de entradas para las funciones</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Cines -->
+    <div id="cines" class="content-section">
+        <h2>🏢 Gestión de Cines</h2>
+        <div id="cineAlert"></div>
+
+        <form id="cineForm">
+            <input type="hidden" id="cineId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cineNombre">Nombre del Cine:</label>
+                    <input type="text" id="cineNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="cineDireccion">Dirección:</label>
+                    <input type="text" id="cineDireccion" required>
+                </div>
+            </div>
+            <button type="submit" class="btn">Guardar Cine</button>
+            <button type="button" class="btn btn-secondary" onclick="clearCineForm()">Limpiar</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="loadCines()">🔄 Actualizar Lista</button>
+
+        <table class="data-table" id="cinesTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="cinesTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección Empleados -->
+    <div id="empleados" class="content-section">
+        <h2>👥 Gestión de Empleados</h2>
+        <div id="empleadoAlert"></div>
+
+        <form id="empleadoForm">
+            <input type="hidden" id="empleadoId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="empleadoNombre">Nombre:</label>
+                    <input type="text" id="empleadoNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="empleadoDni">DNI:</label>
+                    <input type="number" id="empleadoDni" required>
+                </div>
+                <div class="form-group">
+                    <label for="empleadoCine">Cine:</label>
+                    <select id="empleadoCine" required>
+                        <option value="">Seleccionar cine</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn">Guardar Empleado</button>
+            <button type="button" class="btn btn-secondary" onclick="clearEmpleadoForm()">Limpiar</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="loadEmpleados()">🔄 Actualizar Lista</button>
+
+        <table class="data-table" id="empleadosTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Cine</th> <!-- Agregado -->
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="empleadosTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección Películas -->
+    <div id="peliculas" class="content-section">
+        <h2>🎭 Gestión de Películas</h2>
+        <div id="peliculaAlert"></div>
+
+        <form id="peliculaForm">
+            <input type="hidden" id="peliculaId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="peliculaTitulo">Título:</label>
+                    <input type="text" id="peliculaTitulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="peliculaGenero">Género:</label>
+                    <select id="peliculaGenero" required>
+                        <option value="">Seleccionar género</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="peliculaCine">Cine:</label>
+                    <select id="peliculaCine" required>
+                        <option value="">Seleccionar cine</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn">Guardar Película</button>
+            <button type="button" class="btn btn-secondary" onclick="clearPeliculaForm()">Limpiar</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="loadPeliculas()">🔄 Actualizar Lista</button>
+
+        <table class="data-table" id="peliculasTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Cine</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="peliculasTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección Salas -->
+    <div id="salas" class="content-section">
+        <h2>🪑 Gestión de Salas</h2>
+        <div id="salaAlert"></div>
+
+        <form id="salaForm">
+            <input type="hidden" id="salaId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="salaNumero">Número de Sala:</label>
+                    <input type="number" id="salaNumero" required>
+                </div>
+                <div class="form-group">
+                    <label for="salaCapacidad">Capacidad:</label>
+                    <input type="number" id="salaCapacidad" required>
+                </div>
+                <div class="form-group">
+                    <label for="salaCine">Cine:</label>
+                    <select id="salaCine" required>
+                        <option value="">Seleccionar cine</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn">Guardar Sala</button>
+            <button type="button" class="btn btn-secondary" onclick="clearSalaForm()">Limpiar</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="loadSalas()">🔄 Actualizar Lista</button>
+
+        <table class="data-table" id="salasTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Capacidad</th>
+                <th>Cine</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="salasTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección Funciones -->
+    <div id="funciones" class="content-section">
+        <h2>⏰ Gestión de Funciones</h2>
+        <div id="funcionAlert"></div>
+
+        <form id="funcionForm">
+            <input type="hidden" id="funcionId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="funcionHorario">Horario:</label>
+                    <input type="datetime-local" id="funcionHorario" required>
+                </div>
+                <div class="form-group">
+                    <label for="funcionSala">Sala:</label>
+                    <select id="funcionSala" required>
+                        <option value="">Seleccionar sala</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="funcionPelicula">Película:</label>
+                    <select id="funcionPelicula" required>
+                        <option value="">Seleccionar película</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn">Guardar Función</button>
+            <button type="button" class="btn btn-secondary" onclick="clearFuncionForm()">Limpiar</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="loadFunciones()">🔄 Actualizar Lista</button>
+
+        <table class="data-table" id="funcionesTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Horario</th>
+                <th>Sala</th>
+                <th>Película</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="funcionesTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección Entradas -->
+    <div id="entradas" class="content-section">
+        <h2>🎫 Gestión de Entradas</h2>
+        <div id="entradaAlert"></div>
+
+        <form id="entradaForm">
+            <input type="hidden" id="entradaId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="entradaPrecio">Precio:</label>
+                    <input type="number" id="entradaPrecio" required>
+                </div>
+                <div class="form-group">
+                    <label for="entradaAsiento">Asiento(s):</label>
+                    <input type="text" id="entradaAsiento" required placeholder="Ej: A1, B5, C10">
+                    <small class="form-text text-muted" style="color:#d1d5db;">
+                        Puedes ingresar <b>un asiento</b> o <b>varios asientos separados por coma</b> para crear varias entradas a la vez.<br>
+                        Ejemplo: <code>A1</code> o <code>A1, B5, C10</code>
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="entradaFuncion">Función:</label>
+                    <select id="entradaFuncion" required>
+                        <option value="">Seleccionar función</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn">Guardar Entrada</button>
+            <button type="button" class="btn btn-secondary" onclick="clearEntradaForm()">Limpiar</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="loadEntradas()">🔄 Actualizar Lista</button>
+
+        <table class="data-table" id="entradasTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Precio</th>
+                <th>Asiento</th>
+                <th>Función</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="entradasTableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
