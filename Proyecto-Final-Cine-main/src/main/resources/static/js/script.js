@@ -766,7 +766,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (typeof salas === 'undefined') window.salas = [];
         if (typeof peliculas === 'undefined') window.peliculas = [];
-        if (typeof funciones === 'undefined') window.funciones = [];
         if (typeof entradas === 'undefined') window.entradas = [];
         if (typeof cines === 'undefined') window.cines = [];
 
@@ -778,12 +777,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function refreshSectionData(sectionName) {
     switch(sectionName) {
-        case 'funciones':
-            await loadSalasForSelect();
-            await loadPeliculasForSelect();
-            await loadFunciones();
-            filterPeliculasForFuncionForm();
-            break;
         case 'entradas':
             await loadEntradas();
             await loadFuncionesForSelect();
